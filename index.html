@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para minha Nhen ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #1a1a1a, #4b0082);
+      color: #ffccdd;
+      overflow-x: hidden;
+    }
+
+    #inicio {
+      position: absolute;
+      z-index: 10;
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px #ff69b4;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #inicio button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #ff69b4;
+      color: white;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    #inicio button:hover {
+      background-color: #ff85c1;
+      transform: scale(1.1);
+      box-shadow: 0 0 10px #ff69b4;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      opacity: 0.2;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 20px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .container.show {
+      opacity: 1;
+    }
+
+    .contador {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: #ff1493;
+      font-weight: 600;
+      text-shadow: 1.5px 1.5px 6px rgba(255, 20, 147, 0.8);
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      animation: brilho 3s ease-in-out infinite;
+    }
+
+    .mensagens {
+      margin-top: 20px;
+      font-size: 1.6rem;
+      font-family: 'Dancing Script', cursive;
+      line-height: 1.8;
+      color: #ffb6c1;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+      background-color: rgba(255, 182, 193, 0.15);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .galeria {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
+      padding: 20px 0;
+    }
+
+    .galeria img {
+      scroll-snap-align: center;
+      width: 80vw;
+      max-width: 320px;
+      height: auto;
+      border-radius: 10px;
+      border: 3px solid #ff69b4;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    iframe {
+      display: block;
+      margin: 20px auto 10px;
+      border-radius: 12px;
+      width: 90vw;
+      max-width: 300px;
+      height: 80px;
+      border: none;
+      z-index: 2;
+      position: relative;
+    }
+
+    @media (max-width: 600px) {
+      .galeria img {
+        width: 90vw;
+        height: auto;
+      }
+    }
+
+    @keyframes brilho {
+      0%, 100% { text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.7); }
+      50% { text-shadow: 2px 2px 20px rgba(255, 105, 180, 1); }
+    }
+
+    #tituloEspecial {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: #ff69b4;
+      text-shadow: 0 0 10px #ffb6c1;
+      cursor: pointer;
+    }
+    
+    .pulso {
+      display: inline-block;
+      animation: pulso 2s infinite;
+    }
+    @keyframes pulso {
+      0%, 100% { transform: scale(1);}
+      50% { transform: scale(1.2);}
+    }
+
+    .coracao-fly {
+      position: fixed;
+      font-size: 20px;
+      color: #ff69b4;
+      animation: subir 3s forwards ease-out;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
+    }
+    @keyframes subir {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(1.5);
+      }
+    }
+
+    .mensagem-final {
+      margin-top: 20px;
+      font-size: 1.2em;
+      line-height: 1.6;
+      animation: aparecer 1s ease-in;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #easter-egg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.95);
+      padding: 20px;
+      color: white;
+      border-radius: 20px;
+      box-shadow: 0 0 20px pink;
+      z-index: 999;
+      text-align: center;
+    }
+
+    #easter-egg h3 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+      color: #ff69b4;
+      text-align: center;
+    }
+
+    #easter-egg video {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    #easter-egg p {
+      margin-top: 15px;
+      font-size: 1.4rem;
+      background-color: rgba(255, 182, 193, 0.2);
+      padding: 15px 20px;
+      border-radius: 12px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <iframe src="https://open.spotify.com/embed/track/7r1MqPAD09w24mCUUbxiCI?utm_source=generator&theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+  <div id="inicio">
+    <h1>Você é muito especial para mim 💖</h1>
+    <button id="btn-iniciar">Clique aqui</button>
+  </div>
+
+  <canvas id="chuva"></canvas>
+
+  <div class="container hidden" id="conteudo">
+    <h2 id="tituloEspecial">Para minha Nhen: Any 💘</h2>
+    <div class="contador" id="contador"></div>
+
+    <div class="galeria">
+      <img src="https://i.imgur.com/ZiaqpDF.jpeg" alt="Foto 1" />
+      <img src="https://i.imgur.com/PzAsg2I.jpeg" alt="Foto 2" />
+      <img src="https://i.imgur.com/jXyF5uA.jpeg" alt="Foto 3" />
+    </div>
+
+    <div class="mensagens" id="mensagens">
+      </div>
+  </div>
+
+  <div id="easter-egg" class="hidden">
+    <h3>🎁 Uma surpresinha pra você 💘</h3>
+    <video controls autoplay loop style="max-width: 90%; border-radius: 20px;">
+      <source src="https://i.imgur.com/MvsMqh8.mp4" type="video/mp4">
+      Seu navegador não suporta vídeo.
+    </video>
+    <p style="margin-top: 15px;">Porque você merece todo amor do mundo e mais um pouco! 💕</p>
+  </div>
+  
+  <script>
+    // Contador de tempo juntos
+    const contador = document.getElementById('contador');
+    const dataInicial = new Date('2025-03-06T00:00:00');
+    setInterval(() => {
+      const agora = new Date();
+      // Se a data estiver no futuro, a diferença será negativa.
+      // Vamos usar Math.abs() para sempre ter um valor positivo.
+      const diff = Math.abs(agora - dataInicial);
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+      
+      if (agora > dataInicial) {
+        contador.textContent = `Eu te amo há ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💞`;
+      } else {
+        // Se a data ainda não chegou
+        contador.textContent = `Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para nosso dia! 💞`;
+      }
+    }, 1000);
+
+    // Chuva de emojis
+    const canvas = document.getElementById('chuva');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const emojis = ['❤️', '🥰'];
+    const gotas = Array.from({ length: 40 }).map(() => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      speed: Math.random() * 1 + 0.5,
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      size: Math.random() * 20 + 10
+    }));
+    function animarChuva() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      gotas.forEach(gota => {
+        ctx.font = `${gota.size}px serif`;
+        ctx.fillText(gota.emoji, gota.x, gota.y);
+        gota.y += gota.speed;
+        if (gota.y > canvas.height) {
+          gota.y = 0;
+          gota.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(animarChuva);
+    }
+    animarChuva();
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Efeito máquina de escrever
+    const mensagensDigitadas = [
+      `"Você é a coincidência mais linda que o destino poderia me dar."`,
+      `"Meu coração faz 'tum-tum' só de pensar em você!" 🥰`,
+      `"Te amo mais que brigadeiro em festa de criança!" 🍫❤️`
+    ];
+
+    const mensagemFinal = `
+      Nhen, eu te amo de um jeito que nem todas as palavras do mundo dariam conta de explicar.  
+      Cada dia ao seu lado é uma nova chance de sorrir mais, de viver melhor e de ser feliz.  
+      Seu olhar me acalma, sua presença me completa, e o simples fato de você existir transforma tudo em mim.  
+      Obrigado por ser minha namorada, minha parceira, minha melhor amiga.  
+      <br><br>Eu te amo mais do que ontem, mas bem menos do que amanhã. ❤️
+    `;
+
+    function aplicarPulso(texto) {
+      return texto
+        .replace(/eu te amo/gi, '<span class="pulso">eu te amo</span>')
+        .replace(/(?<!eu )te amo/gi, '<span class="pulso">te amo</span>'); // Evita pulso duplo
+    }
+
+    const mensagensDiv = document.getElementById('mensagens');
+
+    function iniciarDigitacao() {
+      mensagensDiv.innerHTML = '';
+      let iMensagem = 0;
+
+      function digitarMensagem() {
+        if (iMensagem < mensagensDigitadas.length) {
+          let p = document.createElement('p');
+          mensagensDiv.appendChild(p);
+          let texto = mensagensDigitadas[iMensagem];
+          let iChar = 0;
+          function digitarChar() {
+            if (iChar < texto.length) {
+              p.innerHTML += texto[iChar];
+              iChar++;
+              setTimeout(digitarChar, 40); // Velocidade da digitação
+            } else {
+              iMensagem++;
+              setTimeout(digitarMensagem, 800);
+            }
+          }
+          digitarChar();
+        } else {
+          // Exibe a mensagem final e agenda a dica
+          mensagensDiv.innerHTML += `<p class="mensagem-final">${aplicarPulso(mensagemFinal)}</p>`;
+          // **AQUI ESTÁ A MUDANÇA: A DICA SÓ É AGENDADA QUANDO O TEXTO ACABA**
+          setTimeout(mostrarDica, 20000); // Mostra a dica 20 segundos após o fim do texto
+        }
+      }
+      digitarMensagem();
+    }
+    
+    // **FUNÇÃO PARA MOSTRAR A DICA**
+    function mostrarDica() {
+        const dica = document.createElement('div');
+        dica.style.margin = "40px auto 20px auto";
+        dica.style.maxWidth = "500px";
+        dica.style.textAlign = "center";
+        dica.style.color = "#ffb6c1";
+        dica.style.fontFamily = "'Dancing Script', cursive";
+        dica.style.fontSize = "1.35rem";
+        dica.style.opacity = "0";
+        dica.style.letterSpacing = "0.5px";
+        dica.style.transition = "opacity 1.5s ease";
+        dica.innerHTML = '💡 Dica: Dê <b>5 cliques</b> no título "Para minha Nhen..." e veja a surpresa.';
+        document.body.appendChild(dica);
+        
+        // Efeito de fade-in para a dica
+        setTimeout(() => dica.style.opacity = "0.7", 100);
+    }
+
+    // Funções de interação (vibração, corações)
+    function vibrar() {
+      if (navigator.vibrate) navigator.vibrate(300);
+    }
+
+    function criarCoracao() {
+      const coracao = document.createElement('div');
+      coracao.classList.add('coracao-fly');
+      coracao.textContent = '❤️';
+      coracao.style.left = (Math.random() * window.innerWidth) + 'px';
+      coracao.style.top = (window.innerHeight - 50) + 'px';
+      coracao.style.fontSize = (Math.random() * 10 + 15) + 'px';
+      document.body.appendChild(coracao);
+      setTimeout(() => coracao.remove(), 3000);
+    }
+
+    function iniciarSite() {
+      document.getElementById('inicio').classList.add('hidden');
+      const conteudo = document.getElementById('conteudo');
+      conteudo.classList.remove('hidden');
+      setTimeout(() => conteudo.classList.add('show'), 50);
+    }
+
+    // Event listener do botão inicial
+    document.getElementById('btn-iniciar').addEventListener('click', () => {
+      vibrar();
+      for(let i = 0; i < 20; i++) {
+        setTimeout(criarCoracao, i * 50);
+      }
+      iniciarSite();
+      iniciarDigitacao();
+    });
+
+    // Easter egg
+    let cliqueContador = 0;
+    const titulo = document.getElementById('tituloEspecial');
+    const egg = document.getElementById('easter-egg');
+
+    titulo.addEventListener('click', () => {
+      cliqueContador++;
+      if (cliqueContador >= 5) {
+        egg.classList.remove('hidden');
+        cliqueContador = 0;
+        // Adiciona um listener para fechar o easter egg ao clicar fora
+        setTimeout(() => {
+          window.addEventListener('click', function fecharEgg(e){
+            if (!egg.contains(e.target) && e.target !== titulo) {
+              egg.classList.add('hidden');
+              window.removeEventListener('click', fecharEgg);
+            }
+          });
+        }, 100);
+      }
+    });
+
+  </script>
+</body>
+</html>
